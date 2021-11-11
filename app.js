@@ -3,13 +3,61 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+var starbucks = require("./models/starbucks"); 
+
+const connectionString =
+process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+{useNewUrlParser: true,
+useUnifiedTopology: true});
+
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
+
+// We can seed the collection if needed on 
+//server start 
+async function recreateDB(){ 
+  // Delete everything 
+  await starbucks.deleteMany(); 
+ //filter coffee",quantity:2,cost:25.6},{coffee_type:"cappicino",quantity:1,cost:45.6},{coffee_type:"Mocha",quantity:4,cost:56.6}
+  let instance1 = new 
+starbucks({coffee_type:"filter coffee",  quantity:'large', cost:25.4}); 
+  instance1.save( function(err,doc) { 
+      if(err) return console.error(err); 
+      console.log("First object saved") 
+  }); 
+
+  let instance2 = new 
+  starbucks({coffee_type:"cappicino",  quantity:'small', cost:45.6}); 
+    instance2.save( function(err,doc) { 
+        if(err) return console.error(err); 
+        console.log("Second object saved") 
+    }); 
+
+    let instance3 = new 
+    starbucks({coffee_type:"Mocha",  quantity:'venti', cost:56.6}); 
+      instance3.save( function(err,doc) { 
+          if(err) return console.error(err); 
+          console.log("Third object saved") 
+      }); 
+} 
+ 
+let reseed = true; 
+if (reseed) { recreateDB();} 
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var starbucksRouter = require('./routes/starbucks');
 var addmodsRouter = require('./routes/addmods');
 var selectorRouter = require('./routes/selector');
-
+var resourceRouter = require('./routes/resource');
 var app = express();
 
 // view engine setup
@@ -27,7 +75,7 @@ app.use('/users', usersRouter);
 app.use('/starbucks', starbucksRouter);
 app.use('/addmods', addmodsRouter);
 app.use('/selector', selectorRouter);
-
+app.use('/', resourceRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

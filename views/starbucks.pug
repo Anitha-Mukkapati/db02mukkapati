@@ -2,13 +2,20 @@ extends layout
 
 block content
   h1= title
-  - const starbucks = ['coffee_type','quantity','cost']
-  - let results;
-  script.
-    function buy(x){
-      alert('Purchased Item: ' + x)
-   } 
-  div(class='container-fluid')
-    div(class='row')
-      each results, index in starbucks
-        div(class='col-sm-2' onclick='buy('+index+')') #{results}
+  br
+  -var results = [{coffee_type:"filter coffee",quantity:"large",cost:25.6},{coffee_type:"cappicino",quantity:"small",cost:45.6},{coffee_type:"Mocha",quantity:"venti",cost:56.6}]
+   div(class = "container-fluid")
+    div(class = "row")
+     each i,index in results
+        div(class="col-sm-4" onclick=`buy(${index})`) coffee_type: #{i.coffee_type} 
+        br
+        br 
+        div(class="col-sm-4" onclick=`buy(${index})`) quantity: #{i.quantity}
+        br
+        br  
+        div(class="col-sm-4" onclick=`buy(${index})`) cost #{i.cost}
+        script.
+                function buy(itemNo){
+                    alert(`You purchased item ${itemNo+1}`)
+
+                }
