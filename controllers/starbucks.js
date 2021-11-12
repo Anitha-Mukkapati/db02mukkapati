@@ -31,7 +31,7 @@ exports.starbucks_create_post =  async function(req, res) {
     // We are looking for a body, since POST does not have query parameters.
     // Even though bodies can be in many different formats, we will be picky
     // and require that it be a json object
-    // {"starbucks_type":"goat", "cost":12, "size":"large"}
+    // {"starbucks_type":"goat", "cost":12, "quantity":"large"}
     document.coffee_type = req.body.coffee_type;
     document.cost = req.body.cost;
     document.quantity = req.body.quantity;
@@ -68,16 +68,16 @@ exports.starbucks_view_all_Page = async function (req, res) {
     }
 };
 
-exports.costume_update_put = async function(req, res) { 
+exports.starbucks_update_put = async function(req, res) { 
     console.log(`update on id ${req.params.id} with body 
 ${JSON.stringify(req.body)}`) 
     try { 
-        let toUpdate = await Costume.findById( req.params.id) 
+        let toUpdate = await starbucks.findById( req.params.id) 
         // Do updates of properties 
-        if(req.body.costume_type)  
-               toUpdate.costume_type = req.body.costume_type; 
+        if(req.body.starbucks_type)  
+               toUpdate.starbucks_type = req.body.starbucks_type; 
         if(req.body.cost) toUpdate.cost = req.body.cost; 
-        if(req.body.size) toUpdate.size = req.body.size; 
+        if(req.body.quantity) toUpdate.quantity = req.body.quantity; 
         let result = await toUpdate.save(); 
         console.log("Sucess " + result) 
         res.send(result) 
