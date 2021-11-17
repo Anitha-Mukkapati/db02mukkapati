@@ -5,7 +5,7 @@ const startbucksSchema = mongoose.Schema({
     cost: Number
 })
 
-module.exports = mongoose.model("startbucks",
+module.exports = mongoose.model("Startbucks",
     startbucksSchema)
 
     

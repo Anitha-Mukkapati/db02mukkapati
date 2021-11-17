@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  h1= title
+
+  if(toShow == null)
+    h2 No instance to delete
+  else
+    - let starbucksid = toShow._id
+    - let coffee_type = toShow.coffee_type
+    - let starbucksquantity = toShow.quantity
+    - let starbuckscost = toShow.cost
+    - let actionid = "/resource/starbucks/" + starbucksid
+    script let actionid = "#{actionid}"
+    div
+    div.row
+    div(class='starbucksAttr mr-3') starbucks ID is: 
+      span(style="color:red") #{starbucksid}
+    div.row
+    div(class='starbucksAttr mr-3') Coffee Type is: 
+      span(style="color:red") #{coffee_type}
+    div.row
+    div(class='starbucksAttr mr-3') Quantity is: 
+      span(style="color:red") #{starbucksquantity}
+    div.row
+    div(class='starbucksAttr mr-3') Cost is: 
+      span(style="color:red") #{starbuckscost}
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+
+  script.
+    function cancel() {
+    // Go back to the home page for the starbucks collection
+    window.location.href='/starbucks'
+    }
+    function deleteOnid() {
+    console.log("starting delete")
+    // delete first
+    fetch(actionid, {
+    method: 'DELETE' // Don't need a body for the delete
+    }).then((resp) => {
+    return resp.json(); // or resp.text() or whatever the server sends
+    }).then((body) => {
+    alert("Delete succeded")
+    window.location.href='/starbucks'
+    // TODO handle body
+    }).catch((error) => {
+    // TODO handle error
+    alert("Delete failed " + error )
+    });
+    }
