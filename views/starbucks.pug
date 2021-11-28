@@ -9,15 +9,20 @@ block content
     function buy(x){
       alert('purchased item ' + x)
    } 
+  - let destination4 = `dispatch(\"/starbucks/create\")`
+  button.btn( class="btn-danger ml-1", onclick= destination4) create
   div(class='container-fluid')
     div(class='row m-1')
     div(class="row row-cols-1 row-cols-sm-4 g-6")
       each item, index in items
-        - let destination = `dispatch(\"/coffee/update?id=${item._id}\")`
+        - let destination = `dispatch(\"/starbucks/update?id=${item._id}\")`
+        - let destination1 = `dispatch(\"/starbucks/detail?id=${item._id}\")`
+        - let destination2 = `dispatch(\"/starbucks/delete?id=${item._id}\")`
         div(class="card text-white bg-secondary mb-3" class='col' class='card' class='card-body' class='card-text' onclick='buy('+index+')') Item #{item.coffee_type}(#{item.quantity})is #{item.cost}
           <br><br>
           button.btn( class="btn-danger ml-1", onclick= destination) Update
-
+          button.btn( class="btn-danger ml-1", onclick= destination1) view
+          button.btn( class="btn-danger ml-1", onclick= destination2) delete
   script.
     function dispatch(path){
       window.location.href=path
